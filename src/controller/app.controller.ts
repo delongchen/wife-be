@@ -1,12 +1,23 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from '../service/app.service';
+import { Controller, Post, Get, Body, Query } from '@nestjs/common';
+import { TextService } from '../service/text.service';
+import { ChangeEvent } from '../interface/ChangeEvent';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor (
+    private readonly textService: TextService
+  ){}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Post('/text')
+  emitEvent(@Body() body: ChangeEvent): ChangeEvent {
+    console.log(body);
+    return this.textService.eventHandler(body)
+  }
+
+  @Get('/text')
+  getText(@Query('path') path: string): ChangeEvent {
+    const textNode = this.textService.getText(path)
+    if (textNode === null) return ChangeEvent.ERR.message('not find')
+    return ChangeEvent.OK.setData(textNode)
   }
 }

@@ -2,7 +2,8 @@ import { TextNode } from './TextNode'
 
 const h = TextNode.getInstance
 
-export const TextRoot = h('What is font-end').addChildren([
+const TextRoot = h('What is font-end',
+[
   h('编程基础', [
     h('计算机基础', [
       h('计算机组成原理', ['冯诺依曼结构', '二进制', '算术和逻辑运算', '各级存储器的区别']),
@@ -91,4 +92,6 @@ export const TextRoot = h('What is font-end').addChildren([
       ]),
     ])
   ])
-])
+]).addID()
+
+export { TextRoot }
